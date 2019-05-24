@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public bool grounded = false;
     public bool doubleJump = true;
+    public AudioClip jumpSound;
 
     //attacking
     public GameObject attackHitbox;
@@ -31,11 +32,13 @@ public class PlayerMovement : MonoBehaviour
     public GameObject bullet;
 
     private Rigidbody rb;
+    private Animator anim;
 
     void Start()
     {
         speed = walkSpeed;
         rb = this.gameObject.GetComponent<Rigidbody>();
+        anim = this.gameObject.GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -93,6 +96,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown("z") && attacking == false && attackActive == true)
         {
+
+            anim.SetBool("dash", true);
             Attack();
         }
         if (Input.GetKeyDown("x") && attacking == false)
@@ -119,7 +124,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey("left"))
             rb.AddForce(-dashforce, 0, 0);
         attackHitbox.gameObject.SetActive(true);
-        Invoke("AttackEnd", 0.45f);
+        anim.SetBool("dash", false);
+        Invoke("AttackEnd", 0.3f);
     }
     void AttackEnd()
     {
@@ -132,7 +138,14 @@ public class PlayerMovement : MonoBehaviour
     }
     void Jump()
     {
+        AudioSource.PlayClipAtPoint(jumpSound, transform.position);
+        anim.SetBool("jump", true);
         rb.AddForce(transform.up * jumpForce);
+        Invoke("JumpEnd", 0.05f);
+    }
+    void JumpEnd()
+    {
+        anim.SetBool("jump", false);
     }
     void ParticleStop()
     {

@@ -152,6 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17735eb73ae003f4ab585cc29f3a3665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  edgeCheck: {fileID: 0}
+  speed: 0.03
+  edgeCheck: {fileID: 7155728620521070835}
+  seesPlayer: 1
+  rayLength: 0.4
   health: 5

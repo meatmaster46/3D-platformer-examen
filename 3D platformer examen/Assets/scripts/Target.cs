@@ -5,6 +5,7 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     private GameObject gameManager;
+    public AudioClip destroyed;
 
     private void Start()
     {
@@ -15,6 +16,7 @@ public class Target : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerAttackHitbox>() || other.gameObject.GetComponent<PlayerBullet>())
         {
+            AudioSource.PlayClipAtPoint(destroyed, transform.position);
             Destroy(this.gameObject);
             FindObjectOfType<GameManager>().targets.Remove(this.gameObject);
         }
